@@ -15,11 +15,17 @@ class UpdatableScene extends Scene
 		init();
 	}
 
-	public function init()
+	public function init() : Void
+	{ 
+	}
+	
+	public function resize(width : Int, height : Int) : Void
 	{
+		this.width = width;
+		this.height = height;
 	}
 
-	public function update(elapsed : Float)
+	public function update(elapsed : Float) : Void
 	{
 	}
 	

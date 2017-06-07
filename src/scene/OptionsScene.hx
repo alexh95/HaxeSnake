@@ -8,8 +8,6 @@ import platform.Slider;
 class OptionsScene extends UpdatableScene 
 {
 	
-	private var speedSlider : Slider;
-	
 	private function formatFloat(value : Float, decimals : Int) : String
 	{
 		var base : Int = 1;
@@ -23,13 +21,13 @@ class OptionsScene extends UpdatableScene
 		speedText.y = height / 4 - speedText.textHeight;
 		speedText.textColor = 0xFF0000;
 		
-		speedSlider = new Slider(this, Math.floor(width * 0.8), 20);
+		var speedSlider = new Slider(this, Math.floor(width * 0.8), 20);
 		speedSlider.setPos((cast width - speedSlider.width) / 2, 2 * height / 4 - speedSlider.height);
 		speedSlider.onValueChange = function(newValue : Float, oldValue : Float)
 		{
 			speedText.text = "Speed = " + formatFloat(newValue, 2);
 			speedText.x = (width - speedText.textWidth) / 2;
-			sharedData.snakeSpeed = speedSlider.value;
+			sharedData.snakeSpeed = newValue;
 		}
 		speedSlider.value = sharedData.snakeSpeed;
 		
@@ -37,6 +35,13 @@ class OptionsScene extends UpdatableScene
 		buttonMenu.text.textColor = 0x000000;
 		buttonMenu.onClickUp = onClickMenu;
 		buttonMenu.setPos((width - buttonMenu.width) / 2, 3 * height / 4 - buttonMenu.height);
+	}
+	
+	override public function resize(width : Int, height : Int) : Void
+	{	
+		super.resize(width, height);
+		removeChildren();
+		init();
 	}
 	
 	private function onClickMenu()

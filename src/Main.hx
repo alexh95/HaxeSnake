@@ -28,16 +28,6 @@ class Main extends App
 	
 	private function changeScene(scene : Scenes) : Void
 	{
-		#if js
-		var width : Int = Browser.window.outerWidth;
-		var height : Int = Browser.window.outerHeight;
-		var engine : Engine = Engine.getCurrent();
-		if (width != engine.width || height != engine.height)
-		{
-			engine.resize(width, height);
-		}
-		#end
-		
 		lastScene = scene;
 		currentScene = switch scene
 		{
@@ -51,13 +41,26 @@ class Main extends App
 	
 	override function onResize()
 	{
-		changeScene(lastScene);
+		#if js
+		var width : Int = Browser.window.outerWidth;
+		var height : Int = Browser.window.outerHeight;
+		var engine : Engine = Engine.getCurrent();
+		if (width != engine.width || height != engine.height)
+		{
+			engine.resize(width, height);
+		}
+		if (width != currentScene.width || height != currentScene.height)
+		{
+			currentScene.resize(width, height);
+		}
+		#end
+		trace(currentScene.width);
 	}
 
 	override function init()
 	{
 		sharedData = new SharedData(changeScene);
-		changeScene(MENU);
+		changeScene(MENU); 
 	}
 
 	override function update(elapsed : Float)

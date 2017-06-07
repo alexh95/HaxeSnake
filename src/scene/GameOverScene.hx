@@ -19,6 +19,13 @@ class GameOverScene extends UpdatableScene
 		buttonMenu.onClickDown = onClickMenu;
 		buttonMenu.setPos((width - buttonMenu.width) / 2, 2 * height / 3 - buttonMenu.height);
 	}
+	
+	override public function resize(width : Int, height : Int) : Void
+	{	
+		super.resize(width, height);
+		removeChildren();
+		init();
+	}
 
 	private function onClickMenu()
 	{

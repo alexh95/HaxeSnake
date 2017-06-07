@@ -29,22 +29,35 @@ class PlayScene extends UpdatableScene
 	private var framesPerMove : Float;
 	private var framesPerMoveCounter : Float;
 
+	private var container : Sprite;
 	private var snakeGrid : SnakeGrid;
 	private var snake : Snake;
 	private var food : GridBitmap;
 
+	private function setChildrenPos() : Void
+	{
+		container.setPos((width - snakeGrid.width) / 2, (height - snakeGrid.height) / 2);
+		snake.setPos(snakeGrid.x, snakeGrid.y);
+	}
+	
 	override public function init()
 	{
 		framesPerMove = snakeSpeedToFramesPerMove();
 		framesPerMoveCounter = 0;
 		
-		var container : Sprite = new Sprite(this);
+		container = new Sprite(this);
 		snakeGrid = new SnakeGrid(container, SNAKE_GRID_ROWS, SNAKE_GRID_COLS);
-		container.setPos((width - snakeGrid.width) / 2, (height - snakeGrid.height) / 2);
 		snake = new Snake(container, SNAKE_INITIAL_LENGTH, SNAKE_GRID_ROWS, SNAKE_GRID_COLS);
-		snake.setPos(snakeGrid.x, snakeGrid.y);
 		food = new GridBitmap(Res.pball.toTile(), container);
 		relocateFood();
+		
+		setChildrenPos();
+	}
+	
+	override public function resize(width : Int, height : Int) : Void
+	{	
+		super.resize(width, height);
+		setChildrenPos();
 	}
 
 	private function relocateFood()

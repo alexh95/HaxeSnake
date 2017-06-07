@@ -18,6 +18,7 @@ enum SliderState
  
 class Slider extends Sprite
 {
+	
 	public var width : Int;
 	public var height : Int;
 	
@@ -167,4 +168,5 @@ class Slider extends Sprite
 		emitTile(ctx, sliderTile);
 		emitTile(ctx, sliderCursorTile);
 	}
+	
 }

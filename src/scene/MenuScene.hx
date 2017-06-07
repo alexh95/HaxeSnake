@@ -13,14 +13,12 @@ import platform.Button;
 class MenuScene extends UpdatableScene
 {
 	
-	private var testButton : Button;
-	
 	override public function init()
 	{
-		var text = new Text(Res.cour.build(128), this);
-		text.text = "Menu";
-		text.textColor = 0xFF0000;
-		text.setPos((width - text.textWidth) / 2, height / 5 - text.textHeight);
+		var titleText = new Text(Res.cour.build(128), this);
+		titleText.text = "Menu";
+		titleText.textColor = 0xFF0000;
+		titleText.setPos((width - titleText.textWidth) / 2, height / 5 - titleText.textHeight);
 		
 		var buttonPlay = new Button(this, Res.cour.build(64), "Play", 400, 80);
 		buttonPlay.text.textColor = 0x000000;
@@ -38,9 +36,11 @@ class MenuScene extends UpdatableScene
 		buttonExit.setPos((width - buttonOptions.width) / 2, 4 * height / 5 - buttonOptions.height);
 	}
 	
-	override public function update(elapsed : Float) 
+	override public function resize(width : Int, height : Int) : Void
 	{
-		
+		super.resize(width, height);
+		removeChildren();
+		init();
 	}
 
 	private function onClickPlay()
