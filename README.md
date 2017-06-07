@@ -6,7 +6,7 @@ Snake was chosen as it is a common game with an established design. This means t
 
 # Target Platforms
 
-So far I've been able to test the application for JavaScript and Flash. As Heaps is still in development I have not found a way to compile it for desktop (C++). [Electron] can fill that gap and it works well.
+So far I've been able to test the application for JavaScript and Flash. As [Heaps] is still in development I have not found a way to compile it for desktop (C++). [Electron] can fill that gap and it works well.
 
 [Haxe]: https://haxe.org/
 [Heaps]: https://github.com/HeapsIO/heaps
