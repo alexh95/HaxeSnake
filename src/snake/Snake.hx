@@ -9,6 +9,7 @@ import hxd.Res;
 
 class Snake extends Drawable
 {
+	
 	private static var TILE_SIZE = 64;
 	
 	private static var TILE_ROW_MOVEMENT : Map<SnakeDirection, Int> = [
@@ -43,13 +44,13 @@ class Snake extends Drawable
 		for (segmentIndex in 0...initialLength)
 		{
 			snake[segmentIndex] = new SnakeSegment(this, snakeTiles);
+			snake[segmentIndex].row = (gridRows >> 1) + segmentIndex;
+			snake[segmentIndex].col = gridCols >> 1;
+			
 			snake[segmentIndex].direction = N;
 			if (segmentIndex == 0) snake[segmentIndex].component = HEAD;
 			else if (segmentIndex == (initialLength - 1)) snake[segmentIndex].component = TAIL;
 			else snake[segmentIndex].component = BODY_I;
-
-			snake[segmentIndex].row = (gridRows >> 1) + segmentIndex;
-			snake[segmentIndex].col = gridCols >> 1;
 		}
 	}
 	
@@ -108,20 +109,25 @@ class Snake extends Drawable
 		var nextHeadRowPos = snake[0].row + TILE_ROW_MOVEMENT[direction];
 		var nextHeadColPos = snake[0].col + TILE_COL_MOVEMENT[direction];
 		
-		// Test bounds and self collisions
+		// Test bounds
 		if (nextHeadRowPos < 0 || nextHeadRowPos >= gridRows ||
 			nextHeadColPos < 0 || nextHeadColPos >= gridCols)
-				return false;
+		{
+			return false;
+		}
 		
+		// Test self collision
 		for (snakeSegment in snake)
 		{
 			if (snakeSegment.component != TAIL)
 			{
-				if (snakeSegment.row == nextHeadRowPos &&
-					snakeSegment.col == nextHeadColPos)
-						return false;
+				if (snakeSegment.row == nextHeadRowPos && snakeSegment.col == nextHeadColPos)
+				{
+					return false;
+				}
 			}
 		}
+		
 		// Move the snake
 		var segmentIndex = snake.length - 1;
 		while (segmentIndex > 0)
@@ -130,24 +136,28 @@ class Snake extends Drawable
 			var currSegment = snake[segmentIndex];
 			var nextSegment = snake[nextSegmentIndex];
 			
-			if (currSegment.alpha == 0) currSegment.alpha = 1;
-			
+			if (currSegment.alpha == 0) 
+				currSegment.alpha = 1;
+
 			currSegment.row = nextSegment.row;
 			currSegment.col = nextSegment.col;
-			
+
 			if (currSegment.direction != nextSegment.direction) 
 				currSegment.component = BODY_CORNER;
 			else 
 				currSegment.component = BODY_I;
+
 			currSegment.direction = nextSegment.direction;
-			
 			segmentIndex = nextSegmentIndex;
 		}
 
 		snake[0].row = nextHeadRowPos;
 		snake[0].col = nextHeadColPos;
 		
-		snake[snake.length - 1].component = TAIL;
+		if (snake[snake.length - 1].component != TAIL)
+			snake[snake.length - 1].component = TAIL;
+			
 		return true;
 	}
+	
 }

@@ -2,7 +2,7 @@ package snake;
 
 import h2d.Sprite;
 import h2d.Tile;
-import platform.AnimationGrid;
+import platform.GridAnimation;
 import snake.SnakeDirection;
 
 enum SnakeComponent
@@ -13,7 +13,7 @@ enum SnakeComponent
 	TAIL;
 }
 
-class SnakeSegment extends AnimationGrid
+class SnakeSegment extends GridAnimation
 {
 	private static var TILE_ROWS = 4;
 	private static var TILE_COLS = 4;
@@ -33,31 +33,31 @@ class SnakeSegment extends AnimationGrid
 	];
 	
 	private static var DIRECTION_ROW_INDEX_CORNER_NORTH : Map<SnakeDirection, Int> = [
-		N => -1,
+		N => 0,
 		E => 1,
-		S => -1,
+		S => 0,
 		W => 2,
 	];
 	
 	private static var DIRECTION_ROW_INDEX_CORNER_EAST : Map<SnakeDirection, Int> = [
 		N => 3,
-		E => -1,
+		E => 0,
 		S => 2,
-		W => -1,
+		W => 0,
 	];
 	
 	private static var DIRECTION_ROW_INDEX_CORNER_SOUTH : Map<SnakeDirection, Int> = [
-		N => -1,
+		N => 0,
 		E => 0,
-		S => -1,
+		S => 0,
 		W => 3,
 	];
 	
 	private static var DIRECTION_ROW_INDEX_CORNER_WEST : Map<SnakeDirection, Int> = [
 		N => 0,
-		E => -1,
+		E => 0,
 		S => 1,
-		W => -1,
+		W => 0,
 	];
 	
 	private static inline function DIRECTION_ROW_INDEX_BODY_CORNER(lastDirection : SnakeDirection, direction : SnakeDirection) : Int  
@@ -77,9 +77,6 @@ class SnakeSegment extends AnimationGrid
 	private var lastDirection : SnakeDirection = N;
 	public var direction(default, set) : SnakeDirection = N;
 	public var component(default, set) : SnakeComponent = HEAD;
-
-	public var row(default, set) : Int = 0;
-	public var col(default, set) : Int = 0;
 	
 	public function new(parent : Sprite, frames : Array<Array<Tile>>)
 	{
@@ -95,30 +92,23 @@ class SnakeSegment extends AnimationGrid
 
 	private inline function set_direction(direction : SnakeDirection) : SnakeDirection
 	{
-		lastDirection = this.direction;
-		this.direction = direction;
-		updateFrame();
+		if (this.direction != direction)
+		{
+			lastDirection = this.direction;
+			this.direction = direction;
+			updateFrame();
+		}
 		return direction;
 	}
 
 	private inline function set_component(component : SnakeComponent) : SnakeComponent
 	{
-		this.component = component;
-		updateFrame();
+		if (this.component != component)
+		{
+			this.component = component;
+			updateFrame();
+		}
 		return component;
 	}
 	
-	private inline function set_row(row : Int) : Int
-	{
-		this.row = row;
-		y = row * height;
-		return row;
-	}
-	
-	private inline function set_col(col : Int) : Int
-	{
-		this.col = col;
-		x = col * width;
-		return col;
-	}
 }

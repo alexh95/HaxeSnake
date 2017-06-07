@@ -1,17 +1,17 @@
 package scene;
 
 import h2d.Anim;
-import h2d.Bitmap;
+import h2d.Sprite;
 import hxd.BitmapData;
 import hxd.Event;
 import hxd.Key;
 import hxd.Res;
+import platform.GridBitmap;
 import scene.UpdatableScene;
-import snake.Food;
 import snake.Snake;
 import snake.SnakeGrid;
 
-class PlayScene extends scene.UpdatableScene
+class PlayScene extends UpdatableScene
 {
 	
 	private static var FRAMES_PER_MOVE_MIN : Float = 60;
@@ -31,17 +31,19 @@ class PlayScene extends scene.UpdatableScene
 
 	private var snakeGrid : SnakeGrid;
 	private var snake : Snake;
-	private var food : Food;
+	private var food : GridBitmap;
 
 	override public function init()
 	{
 		framesPerMove = snakeSpeedToFramesPerMove();
 		framesPerMoveCounter = 0;
-		snakeGrid = new SnakeGrid(this, SNAKE_GRID_ROWS, SNAKE_GRID_COLS);
-		snakeGrid.setPos((width - snakeGrid.width) >> 1, (height - snakeGrid.height) >> 1);
-		snake = new Snake(this, SNAKE_INITIAL_LENGTH, SNAKE_GRID_ROWS, SNAKE_GRID_COLS);
+		
+		var container : Sprite = new Sprite(this);
+		snakeGrid = new SnakeGrid(container, SNAKE_GRID_ROWS, SNAKE_GRID_COLS);
+		container.setPos((width - snakeGrid.width) / 2, (height - snakeGrid.height) / 2);
+		snake = new Snake(container, SNAKE_INITIAL_LENGTH, SNAKE_GRID_ROWS, SNAKE_GRID_COLS);
 		snake.setPos(snakeGrid.x, snakeGrid.y);
-		food = new Food(this, cast snakeGrid.x, cast snakeGrid.y);
+		food = new GridBitmap(Res.pball.toTile(), container);
 		relocateFood();
 	}
 
