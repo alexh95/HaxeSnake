@@ -1,6 +1,8 @@
 package scene;
 
+#if js
 import js.Browser;
+#end
 
 import h2d.Text;
 import hxd.Event;
@@ -10,7 +12,8 @@ import platform.Button;
 
 class MenuScene extends UpdatableScene
 {
-	private var testButton : platform.Button;
+	
+	private var testButton : Button;
 	
 	override public function init()
 	{
@@ -42,16 +45,19 @@ class MenuScene extends UpdatableScene
 
 	private function onClickPlay()
 	{
-		changeScene(PLAY);
+		sharedData.changeScene(PLAY);
 	}
 
 	private function onClickOptions()
 	{
-		changeScene(OPTIONS);
+		sharedData.changeScene(OPTIONS);
 	}
 	
 	private function onClickExit()
 	{
+		#if js
 		Browser.window.close();
+		#end
 	}
+	
 }

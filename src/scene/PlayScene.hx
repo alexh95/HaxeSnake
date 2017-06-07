@@ -13,6 +13,7 @@ import snake.SnakeGrid;
 
 class PlayScene extends scene.UpdatableScene
 {
+	
 	private static var FRAMES_PER_MOVE_MIN : Float = 60;
 	private static var FRAMES_PER_MOVE_MAX : Float = 5;
 
@@ -69,7 +70,7 @@ class PlayScene extends scene.UpdatableScene
 			var gameOver = !snake.processMovement();
 			if (gameOver)
 			{
-				changeScene(GAME_OVER);
+				sharedData.changeScene(GAME_OVER);
 			}
 			else
 			{
@@ -82,4 +83,5 @@ class PlayScene extends scene.UpdatableScene
 			}
 		}
 	}
+	
 }

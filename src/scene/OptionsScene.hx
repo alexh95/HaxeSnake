@@ -7,6 +7,7 @@ import platform.Slider;
 
 class OptionsScene extends UpdatableScene 
 {
+	
 	private var speedSlider : Slider;
 	
 	private function formatFloat(value : Float, decimals : Int) : String
@@ -40,6 +41,7 @@ class OptionsScene extends UpdatableScene
 	
 	private function onClickMenu()
 	{
-		changeScene(MENU);
+		sharedData.changeScene(MENU);
 	}
+	
 }

@@ -1,7 +1,10 @@
+#if js
 import js.Browser;
+#end
 
 import hxd.App;
 import hxd.Res;
+import h3d.Engine;
 import scene.GameOverScene;
 import scene.Scenes;
 import scene.MenuScene;
@@ -12,29 +15,48 @@ import scene.UpdatableScene;
 
 class Main extends App
 {	
+	
 	private var lastScene: Scenes;
 	private var currentScene : UpdatableScene;
 	private var sharedData : SharedData;
-
-	private function changeScene(scene : Scenes)
+		
+	public static function main()
 	{
+		Res.initEmbed();
+		new Main();
+	}
+	
+	private function changeScene(scene : Scenes) : Void
+	{
+		#if js
 		var width : Int = Browser.window.outerWidth;
 		var height : Int = Browser.window.outerHeight;
-		h3d.Engine.getCurrent().resize(width, height);
+		var engine : Engine = Engine.getCurrent();
+		if (width != engine.width || height != engine.height)
+		{
+			engine.resize(width, height);
+		}
+		#end
 		
 		lastScene = scene;
-		switch scene
+		currentScene = switch scene
 		{
-			case MENU: setScene2D(currentScene = new MenuScene(changeScene, sharedData));
-			case OPTIONS: setScene2D(currentScene = new OptionsScene(changeScene, sharedData));
-			case PLAY: setScene2D(currentScene = new PlayScene(changeScene, sharedData));
-			case GAME_OVER: setScene2D(currentScene = new GameOverScene(changeScene, sharedData));
+			case MENU: new MenuScene(sharedData);
+			case OPTIONS: new OptionsScene(sharedData);
+			case PLAY: new PlayScene(sharedData);
+			case GAME_OVER: new GameOverScene(sharedData);
 		}
+		setScene2D(currentScene);
+	}
+	
+	override function onResize()
+	{
+		changeScene(lastScene);
 	}
 
 	override function init()
 	{
-		sharedData = new SharedData();
+		sharedData = new SharedData(changeScene);
 		changeScene(MENU);
 	}
 
@@ -43,14 +65,4 @@ class Main extends App
 		currentScene.update(elapsed);
 	}
 	
-	override function onResize()
-	{
-		changeScene(lastScene);
-	}
-	
-	static function main()
-	{
-		Res.initEmbed();
-		new Main();
-	}
 }

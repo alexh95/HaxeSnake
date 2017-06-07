@@ -5,13 +5,12 @@ import scene.Scenes;
 
 class UpdatableScene extends Scene
 {
-	private var changeScene : Scenes -> Void;
+	
 	private var sharedData : SharedData;
 
-	public function new(changeScene : Scenes -> Void, sharedData : SharedData)
+	public function new(sharedData : SharedData)
 	{
 		super();
-		this.changeScene = changeScene;
 		this.sharedData = sharedData;
 		init();
 	}
@@ -23,4 +22,5 @@ class UpdatableScene extends Scene
 	public function update(elapsed : Float)
 	{
 	}
+	
 }

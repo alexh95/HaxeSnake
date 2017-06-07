@@ -1,14 +1,12 @@
 package scene;
+
 import h2d.Text;
 import hxd.Res;
 import platform.Button;
 
-/**
- * ...
- * @author AlexH
- */
 class GameOverScene extends UpdatableScene
 {
+	
 	override public function init()
 	{
 		var text = new Text(Res.cour.build(64), this);
@@ -24,6 +22,7 @@ class GameOverScene extends UpdatableScene
 
 	private function onClickMenu()
 	{
-		changeScene(MENU);
+		sharedData.changeScene(MENU);
 	}
+	
 }
